@@ -1,0 +1,356 @@
+definitions:
+  comments.CommentIn:
+    properties:
+      content:
+        type: string
+        x-order: "0"
+      post_id:
+        minimum: 1
+        type: integer
+        x-order: "1"
+      user_id:
+        minimum: 1
+        type: integer
+        x-order: "2"
+    required:
+    - content
+    - post_id
+    - user_id
+    type: object
+  comments.CommentOut:
+    properties:
+      content:
+        type: string
+        x-order: "1"
+      id:
+        type: integer
+        x-order: "0"
+      post_id:
+        type: integer
+        x-order: "2"
+      user_id:
+        type: integer
+        x-order: "3"
+    type: object
+  posts.PostIn:
+    properties:
+      content:
+        type: string
+        x-order: "1"
+      title:
+        type: string
+        x-order: "0"
+      user_id:
+        minLength: 1
+        type: string
+        x-order: "2"
+    required:
+    - content
+    - title
+    - user_id
+    type: object
+  posts.PostOut:
+    properties:
+      content:
+        type: string
+        x-order: "2"
+      id:
+        type: integer
+        x-order: "0"
+      title:
+        type: string
+        x-order: "1"
+      user_id:
+        type: integer
+        x-order: "3"
+    type: object
+  users.UserIn:
+    properties:
+      confirm_password:
+        type: string
+        x-order: "3"
+      email:
+        type: string
+        x-order: "1"
+      password:
+        type: string
+        x-order: "2"
+      username:
+        type: string
+        x-order: "0"
+    required:
+    - confirm_password
+    - email
+    - password
+    - username
+    type: object
+  users.UserOut:
+    properties:
+      email:
+        type: string
+        x-order: "2"
+      id:
+        type: integer
+        x-order: "0"
+      username:
+        type: string
+        x-order: "1"
+    type: object
+info:
+  contact:
+    email: seaworndrift@gmail.com
+    name: Support
+  description: Fiber API with auto-generated  Swagger docs.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: My Fiber API
+  version: "1.0"
+paths:
+  /api/comments:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of comments
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 30
+        description: Items per page
+        in: query
+        name: size
+        type: integer
+      - description: Item properties to fetch
+        in: query
+        name: properties
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/comments.CommentOut'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get comments
+      tags:
+      - Comment
+    post:
+      consumes:
+      - application/json
+      description: Create a new comment
+      parameters:
+      - description: New Comment
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/comments.CommentIn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/comments.CommentOut'
+      security:
+      - ApiKeyAuth: []
+      summary: Create comment
+      tags:
+      - Comment
+  /api/comments/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a single comment
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/comments.CommentOut'
+      security:
+      - ApiKeyAuth: []
+      summary: Get comment
+      tags:
+      - Comment
+  /api/posts:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of posts
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 30
+        description: Items per page
+        in: query
+        name: size
+        type: integer
+      - description: Item properties to fetch
+        in: query
+        name: properties
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/posts.PostOut'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get posts
+      tags:
+      - Post
+    post:
+      consumes:
+      - application/json
+      description: Create a new post
+      parameters:
+      - description: Post
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/posts.PostIn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/posts.PostOut'
+      security:
+      - ApiKeyAuth: []
+      summary: Create post
+      tags:
+      - Post
+  /api/posts/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a single post
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/posts.PostOut'
+      security:
+      - ApiKeyAuth: []
+      summary: Get post
+      tags:
+      - Post
+  /api/users:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of users
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 30
+        description: Items per page
+        in: query
+        name: size
+        type: integer
+      - description: Item properties to fetch
+        in: query
+        name: properties
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/users.UserOut'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get users
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: New User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/users.UserIn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/users.UserOut'
+      security:
+      - ApiKeyAuth: []
+      summary: Create user
+      tags:
+      - User
+  /api/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a single user
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/users.UserOut'
+      security:
+      - ApiKeyAuth: []
+      summary: Get user
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
